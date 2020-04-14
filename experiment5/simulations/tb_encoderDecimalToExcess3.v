@@ -19,11 +19,10 @@ initial begin
         
     #100;
     sw = 6'b10_0000;
-
 end
 
 encoderDecimalToExcess3 dut(
-    .in(sw[5:0]),
+    .in(sw),
     .out(y)
     );
 
