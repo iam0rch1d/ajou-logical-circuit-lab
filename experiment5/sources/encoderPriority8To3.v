@@ -26,6 +26,7 @@ module encoderPriority8To3 (
     assign wire_mintermOut2[2] = ~enableIn & ~in[6];
     assign wire_mintermOut2[3] = ~enableIn & ~in[7];
 
+    // Active-low
     assign out[0] = ~(wire_mintermOut0[0] | wire_mintermOut0[1] | wire_mintermOut0[2] | wire_mintermOut0[3]);
     assign out[1] = ~(wire_mintermOut1[0] | wire_mintermOut1[1] | wire_mintermOut1[2] | wire_mintermOut1[3]);
     assign out[2] = ~(wire_mintermOut2[0] | wire_mintermOut2[1] | wire_mintermOut2[2] | wire_mintermOut2[3]);

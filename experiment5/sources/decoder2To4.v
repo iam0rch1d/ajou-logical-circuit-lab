@@ -3,6 +3,7 @@ module decoder2To4 (
     output [3:0] out
     );
 
+    // Active-high
     assign out[0] = ~in[1] & ~in[0];
     assign out[1] = ~in[1] & in[0];
     assign out[2] = in[1] & ~in[0];

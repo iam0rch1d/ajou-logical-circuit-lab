@@ -7,6 +7,7 @@ module decoderBcdToDecimal (
 
     assign wire_in = in;
 
+    // Active-low
     always @(wire_in) begin
         case (wire_in)
             4'b0000: out = 10'b11_1111_1110;
