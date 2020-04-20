@@ -17,7 +17,7 @@ module exp1 (
     reg reg_y;
     reg reg_z;
     
-    always @(subtaskMode or a or b or c or reg_l1 or reg_z) begin
+    always@ (subtaskMode or a or b or c or reg_l1 or reg_z) begin
         case(subtaskMode)
             // subtaskMode(0): 3-input AND gate
             2'b00: begin
