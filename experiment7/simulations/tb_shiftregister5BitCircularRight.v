@@ -34,7 +34,7 @@ shiftregister5BitCircularRight dut(
     .clockpulse(clockpulse),
     .clear(clear),
     .enablePreset(enablePreset),
-    .preset(5'b00011),
+    .preset(5'b11000),
     .out(out),
     .notout(notout)
     );

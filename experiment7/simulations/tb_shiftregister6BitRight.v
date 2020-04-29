@@ -35,7 +35,7 @@ shiftregister6BitRight dut(
     .clear(clear),
     .serialInput(1'b0),
     .enablePreset(enablePreset),
-    .preset(6'b000011),
+    .preset(6'b110000),
     .out(out),
     .notout(notout)
     );

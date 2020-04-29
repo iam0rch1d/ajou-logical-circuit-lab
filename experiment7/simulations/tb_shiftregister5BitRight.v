@@ -35,7 +35,7 @@ shiftregister5BitRight dut(
     .clear(clear),
     .serialInput(1'b0),
     .enablePreset(enablePreset),
-    .preset(5'b00011),
+    .preset(5'b11000),
     .out(out),
     .notout(notout)
     );

@@ -35,7 +35,7 @@ shiftregister4BitLeft dut(
     .clear(clear),
     .serialInput(1'b0),
     .enablePreset(enablePreset),
-    .preset(4'b1100),
+    .preset(4'b0011),
     .out(out),
     .notout(notout)
     );
