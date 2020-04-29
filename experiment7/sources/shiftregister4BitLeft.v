@@ -1,8 +1,4 @@
-<<<<<<< HEAD:experiment7/sources/shiftregister4BitRight.v
-module shiftregister4BitRight (
-=======
 module shiftregister4BitLeft (
->>>>>>> develop:experiment7/sources/shiftregister4BitLeft.v
     input clockpulse,
     input clear,
     input serialInput,
