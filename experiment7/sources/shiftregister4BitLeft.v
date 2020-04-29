@@ -1,4 +1,4 @@
-module shiftregister6BitRight (
+module shiftregister4BitLeft (
     input clockpulse,
     input clear,
     input serialInput,
@@ -11,8 +11,8 @@ module shiftregister6BitRight (
     flipflopJk bit0(.clockpulse(clockpulse),
                     .preset(preset[0] & enablePreset),
                     .clear(clear),
-                    .jack(serialInput),
-                    .kilby(~serialInput),
+                    .jack(out[1]),
+                    .kilby(notout[1]),
                     .out(out[0]),
                     .notout(notout[0])
                     );
@@ -20,8 +20,8 @@ module shiftregister6BitRight (
     flipflopJk bit1(.clockpulse(clockpulse),
                     .preset(preset[1] & enablePreset),
                     .clear(clear),
-                    .jack(out[0]),
-                    .kilby(notout[0]),
+                    .jack(out[2]),
+                    .kilby(notout[2]),
                     .out(out[1]),
                     .notout(notout[1])
                     );
@@ -29,8 +29,8 @@ module shiftregister6BitRight (
     flipflopJk bit2(.clockpulse(clockpulse),
                     .preset(preset[2] & enablePreset),
                     .clear(clear),
-                    .jack(out[1]),
-                    .kilby(notout[1]),
+                    .jack(out[3]),
+                    .kilby(notout[3]),
                     .out(out[2]),
                     .notout(notout[2])
                     );
@@ -38,8 +38,8 @@ module shiftregister6BitRight (
     flipflopJk bit3(.clockpulse(clockpulse),
                     .preset(preset[3] & enablePreset),
                     .clear(clear),
-                    .jack(out[2]),
-                    .kilby(notout[2]),
+                    .jack(serialInput),
+                    .kilby(~serialInput),
                     .out(out[3]),
                     .notout(notout[3])
                     );

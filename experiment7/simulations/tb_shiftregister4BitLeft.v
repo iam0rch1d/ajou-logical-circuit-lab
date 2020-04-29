@@ -1,9 +1,9 @@
-module tb_shiftregister6BitRight;
+module tb_shiftregister4BitLeft;
 reg clockpulse;
 reg clear;
 reg enablePreset;
-wire [4:0] out;
-wire [4:0] notout;
+wire [3:0] out;
+wire [3:0] notout;
 integer i;
 
 initial begin
@@ -30,12 +30,12 @@ initial begin
     end
 end
 
-shiftregister6BitRight dut(
+shiftregister4BitLeft dut(
     .clockpulse(clockpulse),
     .clear(clear),
     .serialInput(1'b0),
     .enablePreset(enablePreset),
-    .preset(4'b0011),
+    .preset(4'b1100),
     .out(out),
     .notout(notout)
     );
