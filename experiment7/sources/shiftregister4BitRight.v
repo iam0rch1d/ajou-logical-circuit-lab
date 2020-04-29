@@ -1,4 +1,4 @@
-module shiftregister6BitRight (
+module shiftregister4BitRight (
     input clockpulse,
     input clear,
     input serialInput,
