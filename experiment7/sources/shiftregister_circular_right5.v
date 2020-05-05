@@ -1,4 +1,4 @@
-module shiftregister_right5_circular (
+module shiftregister_circular_right5 (
     input clockpulse,
     input clear,
     input preset_enable,

@@ -1,4 +1,4 @@
-module tb_shiftregister_right5_circular;
+module tb_shiftregister_circular_right5;
 reg i_cp;
 reg i_clr;
 reg i_pe;
@@ -30,7 +30,7 @@ initial begin
     end
 end
 
-shiftregister_right5_circular dut(
+shiftregister_circular_right5 dut(
     .clockpulse(i_cp),
     .clear(i_clr),
     .preset_enable(i_pe),
