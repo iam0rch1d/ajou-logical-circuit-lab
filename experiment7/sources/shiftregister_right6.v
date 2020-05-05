@@ -1,4 +1,4 @@
-module shiftregister_right6 (
+module shiftregister_right6(
     input clockpulse,
     input clear,
     input serial_input,

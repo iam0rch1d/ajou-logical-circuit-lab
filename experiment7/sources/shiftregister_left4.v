@@ -1,4 +1,4 @@
-module shiftregister_left4 (
+module shiftregister_left4(
     input clockpulse,
     input clear,
     input serial_input,
