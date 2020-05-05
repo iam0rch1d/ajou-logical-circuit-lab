@@ -1,4 +1,4 @@
-module counter_bcd (
+module counter_bcd(
     input clockpulse,
     input clear_,
     output reg [3:0] signal_q

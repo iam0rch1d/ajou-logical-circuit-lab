@@ -1,4 +1,4 @@
-module counter_modulo3_sync(
+module counter_modulo3_sync (
     input clockpulse,
     input clear_,
     output wire [1:0] signal_q,

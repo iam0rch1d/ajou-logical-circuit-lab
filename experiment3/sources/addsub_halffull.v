@@ -1,4 +1,4 @@
-module addsub_halffull (
+module addsub_halffull(
     input mode_addsub, // ADDER at 0, SUBTRACTOR at 1
     input mode_halffull, // HALF at 0, FULL at 1
     input signal_a,

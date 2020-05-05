@@ -1,4 +1,4 @@
-module flipflop_jk_negedge (
+module flipflop_jk_negedge(
     input clockpulse,
     input preset_,
     input clear_,

@@ -1,4 +1,4 @@
-module encoder_decimal_to_excess3 (
+module encoder_decimal_to_excess3(
     input [5:0] signal_i,
     output [3:0] signal_o
 );

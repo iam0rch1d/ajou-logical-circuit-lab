@@ -1,4 +1,4 @@
-module counter_modulo8_async (
+module counter_modulo8_async(
     input clockpulse,
     input clear_,
     output wire [2:0] signal_q,

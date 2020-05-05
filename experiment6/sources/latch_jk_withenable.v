@@ -1,6 +1,6 @@
 // ** DO NOT USE THIS MODULE **
 
-module latch_jk_withenable (
+module latch_jk_withenable(
     input enable,
     input jack,
     input kilby,

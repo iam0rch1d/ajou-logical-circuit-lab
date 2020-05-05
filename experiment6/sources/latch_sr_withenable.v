@@ -1,6 +1,6 @@
 // ** DO NOT USE THIS MODULE **
 
-module latch_sr_withenable (
+module latch_sr_withenable(
     input enable,
     input set,
     input reset,

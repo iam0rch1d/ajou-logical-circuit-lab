@@ -1,4 +1,4 @@
-module exp1 (
+module exp1(
     input mode_task,
     input [1:0] mode_subtask,
     input signal_a,

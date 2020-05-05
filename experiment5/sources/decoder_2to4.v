@@ -1,4 +1,4 @@
-module decoder_2to4 (
+module decoder_2to4(
     input [1:0] signal_i,
     output [3:0] signal_o
 );

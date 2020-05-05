@@ -1,4 +1,4 @@
-module demux_1to4 (
+module demux_1to4(
     input data,
     input [1:0] signal_i,
     output [3:0] signal_o

@@ -1,6 +1,6 @@
 // ** DO NOT USE THIS MODULE **
 
-module latch_d_withenable (
+module latch_d_withenable(
     input enable,
     input data,
     output reg signal_q,

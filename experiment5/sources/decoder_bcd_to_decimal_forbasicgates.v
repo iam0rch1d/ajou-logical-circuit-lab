@@ -1,4 +1,4 @@
-module decoder_bcd_to_decimal_forbasicgates (
+module decoder_bcd_to_decimal_forbasicgates(
     input [3:0] signal_i,
     output [9:0] signal_o
 );

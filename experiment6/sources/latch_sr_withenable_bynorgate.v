@@ -1,6 +1,6 @@
 // ** DO NOT USE THIS MODULE **
 
-module latch_sr_withenable_bynorgate (
+module latch_sr_withenable_bynorgate(
     input enable,
     input set,
     input reset,

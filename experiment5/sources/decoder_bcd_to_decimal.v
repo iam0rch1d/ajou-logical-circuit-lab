@@ -1,4 +1,4 @@
-module decoder_bcd_to_decimal (
+module decoder_bcd_to_decimal(
     input [3:0] signal_i,
     output reg [9:0] signal_o_
 );

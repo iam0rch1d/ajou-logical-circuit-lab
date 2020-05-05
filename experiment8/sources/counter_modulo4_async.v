@@ -1,4 +1,4 @@
-module counter_modulo4_async (
+module counter_modulo4_async(
     input clockpulse,
     input clear_,
     output wire [1:0] signal_q,

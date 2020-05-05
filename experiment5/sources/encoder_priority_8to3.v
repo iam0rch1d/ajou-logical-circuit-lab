@@ -1,4 +1,4 @@
-module encoder_priority_8to3 (
+module encoder_priority_8to3(
     input enable_in_,
     input [7:0] signal_i_,
     output [2:0] signal_o_,

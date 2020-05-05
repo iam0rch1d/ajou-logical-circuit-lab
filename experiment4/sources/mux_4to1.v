@@ -1,4 +1,4 @@
-module mux_4to1 (
+module mux_4to1(
     input enable_,
     input [1:0] signal_i,
     input [3:0] data,

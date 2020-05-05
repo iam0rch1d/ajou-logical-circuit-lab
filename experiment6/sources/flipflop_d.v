@@ -1,4 +1,4 @@
-module flipflop_d (
+module flipflop_d(
     input clockpulse,
     input preset,
     input clear,
