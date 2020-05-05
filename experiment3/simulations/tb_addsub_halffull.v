@@ -46,7 +46,7 @@ initial begin
     i_cbi = 1'b1;
 end
 
-exp3 dut(
+addsub_halffull dut(
     .mode_addsub(1'bx), // ** MODIFY HERE **
     .mode_halffull(1'bx), // ** MODIFY HERE **
     .signal_a(i_a),
