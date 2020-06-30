@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="calculator">
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div4" CBX_FILE_NAME="lpm_divide_a2p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult0" CBX_FILE_NAME="mult_66t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div1" CBX_FILE_NAME="lpm_divide_p0p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div5" CBX_FILE_NAME="lpm_divide_d2p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div9" CBX_FILE_NAME="lpm_divide_p0p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod0" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod4" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult4|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_kgh.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div2" CBX_FILE_NAME="lpm_divide_s0p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div6" CBX_FILE_NAME="lpm_divide_a2p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod1" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult1|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_lgh.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div3" CBX_FILE_NAME="lpm_divide_62p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div7" CBX_FILE_NAME="lpm_divide_62p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod2" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult2|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_rgh.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div0" CBX_FILE_NAME="lpm_divide_92p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div8" CBX_FILE_NAME="lpm_divide_s0p.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod3" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult3|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_ngh.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
