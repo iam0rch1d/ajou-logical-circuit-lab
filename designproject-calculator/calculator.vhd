@@ -61,8 +61,8 @@ architecture behavior of calculator is
 	
 	begin
 		isnot_keypad_pressed <= not is_keypad_pressed;
-        
-        -- Clocking process
+		
+		-- Clocking process
 		process (clock_50mhz) begin
 			if rising_edge(clock_50mhz) then
 				program_counter <= program_counter + 1;
@@ -71,8 +71,8 @@ architecture behavior of calculator is
 		
 		clock <= program_counter(20);
 		sevensegment_clock <= program_counter(16);
-        
-        -- Keypad input process
+		
+		-- Keypad input process
 		process (
 			clock,
 			isnot_keypad_pressed,
@@ -208,14 +208,14 @@ architecture behavior of calculator is
 					end if;
 				end if;
 			if (keypad_toggle = '1' and keypad_status_primary = keypad_status_secondary) then
-                keypad_toggle <= '0';
-                
-                -- [7][8][9][/]
-                -- [4][5][6][*]
-                -- [1][2][3][-]
-                -- [0][C][=][+]
-                case keypad_status_primary is
-                    -- Pressed button [7]
+				keypad_toggle <= '0';
+				
+				-- [7][8][9][/]
+				-- [4][5][6][*]
+				-- [1][2][3][-]
+				-- [0][C][=][+]
+				case keypad_status_primary is
+					-- Pressed button [7]
 					when X"0001" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -282,8 +282,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [8]
+						end if;
+					-- Pressed button [8]
 					when X"0002" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -350,8 +350,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [9]
+						end if;
+					-- Pressed button [9]
 					when X"0004" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -418,8 +418,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [/]
+						end if;
+					-- Pressed button [/]
 					when X"0008" => 
 						if (status = INITIAL) then
 							status <= ERROR;
@@ -434,8 +434,8 @@ architecture behavior of calculator is
 							operation_status <= 1;
 							entered_operator <= entering_operator;
 							entering_operator <= 3;
-                        end if;
-                    -- Pressed button [4]
+						end if;
+					-- Pressed button [4]
 					when X"0010" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -502,8 +502,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [5]
+						end if;
+					-- Pressed button [5]
 					when X"0020" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -570,8 +570,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [6]
+						end if;
+					-- Pressed button [6]
 					when X"0040" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -638,8 +638,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [*]
+						end if;
+					-- Pressed button [*]
 					when X"0080" => 
 						if (status = INITIAL) then
 							status <= ERROR;
@@ -654,8 +654,8 @@ architecture behavior of calculator is
 							operation_status <= 1;
 							entered_operator <= entering_operator;
 							entering_operator <= 2;
-                        end if;
-                    -- Pressed button [1]
+						end if;
+					-- Pressed button [1]
 					when X"0100" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -722,8 +722,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [2]
+						end if;
+					-- Pressed button [2]
 					when X"0200" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -790,8 +790,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [3]
+						end if;
+					-- Pressed button [3]
 					when X"0400" => 
 						if (status = INITIAL or status = ERROR) then
 							status <= OPERAND_1DIGIT_ENTERED;
@@ -858,8 +858,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [-]
+						end if;
+					-- Pressed button [-]
 					when X"0800" => 
 						if (status = INITIAL) then
 							status <= ERROR;
@@ -874,8 +874,8 @@ architecture behavior of calculator is
 							operation_status <= 1;
 							entered_operator <= entering_operator;
 							entering_operator <= 1;
-                        end if;
-                    -- Pressed button [0]
+						end if;
+					-- Pressed button [0]
 					when X"1000" => 
 						if (status = INITIAL or status = ERROR) then
 							digit5_segmentcode <= 20;
@@ -938,8 +938,8 @@ architecture behavior of calculator is
 							digit1_segmentcode <= 0;
 							digit0_segmentcode <= 17;
 						else null;
-                        end if;
-                    -- Pressed button [C]
+						end if;
+					-- Pressed button [C]
 					when X"2000" => 
 						status <= INITIAL;
 						digit5_segmentcode <= 20;
@@ -949,8 +949,8 @@ architecture behavior of calculator is
 						digit1_segmentcode <= 20;
 						digit0_segmentcode <= 0;
 						operation_result <= 0;
-                        memorized_value <= 0;
-                    -- Pressed button [=]
+						memorized_value <= 0;
+					-- Pressed button [=]
 					when X"4000" => 
 						if (status = INITIAL) then
 							digit5_segmentcode <= 20;
@@ -962,11 +962,11 @@ architecture behavior of calculator is
 						end if;
 
 						status <= INITIAL;
-                        operation_status <= 1;
-                        memorized_value <= 0;
+						operation_status <= 1;
+						memorized_value <= 0;
 						entered_operator <= entering_operator;
-                        entering_operator <= 4;
-                    -- Pressed button [+]
+						entering_operator <= 4;
+					-- Pressed button [+]
 					when X"8000" => 
 						if (status = INITIAL) then
 							status <= ERROR;
@@ -987,8 +987,8 @@ architecture behavior of calculator is
 			end if;
 		end if;
 	end process;
-    
-    -- Segment code conversion process
+	
+	-- Segment code conversion process
 	process (
 		digit5_segmentcode,
 		digit4_segmentcode,
@@ -996,14 +996,14 @@ architecture behavior of calculator is
 		digit2_segmentcode,
 		digit1_segmentcode,
 		digit0_segmentcode
-    ) begin   
-        --   -a-
-        -- f|   |b
-        --   -g-
-        -- e|   |c
-        --   -d-
-        -- for B"gfedcba"
-        -- TODO case digit5_segmentcode is
+	) begin   
+		--   -a-
+		-- f|   |b
+		--   -g-
+		-- e|   |c
+		--   -d-
+		-- for B"gfedcba"
+		-- TODO case digit5_segmentcode is
 		if (digit5_segmentcode = 0) then
 			digit5_segment <= B"0111111";	
 		elsif (digit5_segmentcode = 1) then
@@ -1271,9 +1271,9 @@ architecture behavior of calculator is
 			digit0_segment <= B"1010100";
 		else digit0_segment <= B"0000000";
 		end if;
-    end process;
-    
-    -- Segment output process
+	end process;
+	
+	-- Segment output process
 	process(sevensegment_clock, sevensegment_counter) begin
 		if rising_edge(sevensegment_clock) then
 			case sevensegment_counter is 
