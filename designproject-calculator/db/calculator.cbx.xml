@@ -2,7 +2,7 @@
 <LOG_ROOT>
 	<PROJECT NAME="calculator">
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div4" CBX_FILE_NAME="lpm_divide_a2p.tdf"/>
-		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult0" CBX_FILE_NAME="mult_66t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult0" CBX_FILE_NAME="mult_46t.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div1" CBX_FILE_NAME="lpm_divide_p0p.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div5" CBX_FILE_NAME="lpm_divide_d2p.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div9" CBX_FILE_NAME="lpm_divide_p0p.tdf"/>
