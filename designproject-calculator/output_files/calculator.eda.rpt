@@ -1,5 +1,5 @@
 EDA Netlist Writer report for calculator
-Wed Jul 01 17:09:12 2020
+Wed Jul 01 19:22:53 2020
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -36,7 +36,7 @@ applicable agreement for further details.
 +-------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                        ;
 +---------------------------+---------------------------------------+
-; EDA Netlist Writer Status ; Successful - Wed Jul 01 17:09:12 2020 ;
+; EDA Netlist Writer Status ; Successful - Wed Jul 01 19:22:53 2020 ;
 ; Revision Name             ; calculator                            ;
 ; Top-level Entity Name     ; calculator                            ;
 ; Family                    ; Cyclone IV E                          ;
@@ -88,7 +88,7 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit EDA Netlist Writer
     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
-    Info: Processing started: Wed Jul 01 17:08:54 2020
+    Info: Processing started: Wed Jul 01 19:22:34 2020
 Info: Command: quartus_eda --read_settings_files=off --write_settings_files=off designproject-calculator -c calculator
 Info (204019): Generated file calculator_6_1200mv_85c_slow.vho in folder "D:/Altera/13.1/projects/designproject-calculator/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file calculator_6_1200mv_0c_slow.vho in folder "D:/Altera/13.1/projects/designproject-calculator/simulation/modelsim/" for EDA simulation tool
@@ -99,9 +99,9 @@ Info (204019): Generated file calculator_6_1200mv_0c_vhd_slow.sdo in folder "D:/
 Info (204019): Generated file calculator_min_1200mv_0c_vhd_fast.sdo in folder "D:/Altera/13.1/projects/designproject-calculator/simulation/modelsim/" for EDA simulation tool
 Info (204019): Generated file calculator_vhd.sdo in folder "D:/Altera/13.1/projects/designproject-calculator/simulation/modelsim/" for EDA simulation tool
 Info: Quartus II 64-Bit EDA Netlist Writer was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 4658 megabytes
-    Info: Processing ended: Wed Jul 01 17:09:12 2020
-    Info: Elapsed time: 00:00:18
-    Info: Total CPU time (on all processors): 00:00:13
+    Info: Peak virtual memory: 4672 megabytes
+    Info: Processing ended: Wed Jul 01 19:22:53 2020
+    Info: Elapsed time: 00:00:19
+    Info: Total CPU time (on all processors): 00:00:16
 
 
