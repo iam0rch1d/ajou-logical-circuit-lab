@@ -1,5 +1,5 @@
 Analysis & Synthesis report for calculator
-Wed Jul 01 19:19:08 2020
+Thu Jul 02 08:35:23 2020
 Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
 
 
@@ -33,9 +33,9 @@ Quartus II 64-Bit Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
  25. Parameter Settings for Inferred Entity Instance: lpm_divide:Div6
  26. Parameter Settings for Inferred Entity Instance: lpm_divide:Div4
  27. Parameter Settings for Inferred Entity Instance: lpm_divide:Div5
- 28. Parameter Settings for Inferred Entity Instance: lpm_divide:Div0
- 29. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult0
- 30. Parameter Settings for Inferred Entity Instance: lpm_divide:Mod0
+ 28. Parameter Settings for Inferred Entity Instance: lpm_divide:Mod0
+ 29. Parameter Settings for Inferred Entity Instance: lpm_divide:Div0
+ 30. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult0
  31. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult4
  32. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult3
  33. Parameter Settings for Inferred Entity Instance: lpm_mult:Mult1
@@ -68,15 +68,15 @@ applicable agreement for further details.
 +---------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                    ;
 +------------------------------------+--------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Wed Jul 01 19:19:08 2020      ;
+; Analysis & Synthesis Status        ; Successful - Thu Jul 02 08:35:23 2020      ;
 ; Quartus II 64-Bit Version          ; 13.1.0 Build 162 10/23/2013 SJ Web Edition ;
 ; Revision Name                      ; calculator                                 ;
 ; Top-level Entity Name              ; calculator                                 ;
 ; Family                             ; Cyclone IV E                               ;
-; Total logic elements               ; 18,221                                     ;
-;     Total combinational functions  ; 18,205                                     ;
-;     Dedicated logic registers      ; 181                                        ;
-; Total registers                    ; 181                                        ;
+; Total logic elements               ; 18,282                                     ;
+;     Total combinational functions  ; 18,266                                     ;
+;     Dedicated logic registers      ; 184                                        ;
+; Total registers                    ; 184                                        ;
 ; Total pins                         ; 31                                         ;
 ; Total virtual pins                 ; 0                                          ;
 ; Total memory bits                  ; 0                                          ;
@@ -253,27 +253,27 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+----------------------+
 ; Resource                                    ; Usage                ;
 +---------------------------------------------+----------------------+
-; Estimated Total logic elements              ; 18,221               ;
+; Estimated Total logic elements              ; 18,282               ;
 ;                                             ;                      ;
-; Total combinational functions               ; 18205                ;
+; Total combinational functions               ; 18266                ;
 ; Logic element usage by number of LUT inputs ;                      ;
-;     -- 4 input functions                    ; 6337                 ;
-;     -- 3 input functions                    ; 5458                 ;
-;     -- <=2 input functions                  ; 6410                 ;
+;     -- 4 input functions                    ; 6369                 ;
+;     -- 3 input functions                    ; 5463                 ;
+;     -- <=2 input functions                  ; 6434                 ;
 ;                                             ;                      ;
 ; Logic elements by mode                      ;                      ;
-;     -- normal mode                          ; 12253                ;
-;     -- arithmetic mode                      ; 5952                 ;
+;     -- normal mode                          ; 12283                ;
+;     -- arithmetic mode                      ; 5983                 ;
 ;                                             ;                      ;
-; Total registers                             ; 181                  ;
-;     -- Dedicated logic registers            ; 181                  ;
+; Total registers                             ; 184                  ;
+;     -- Dedicated logic registers            ; 184                  ;
 ;     -- I/O registers                        ; 0                    ;
 ;                                             ;                      ;
 ; I/O pins                                    ; 31                   ;
 ; Embedded Multiplier 9-bit elements          ; 6                    ;
 ; Maximum fan-out node                        ; operation_result[31] ;
-; Maximum fan-out                             ; 588                  ;
-; Total fan-out                               ; 54328                ;
+; Maximum fan-out                             ; 587                  ;
+; Total fan-out                               ; 54528                ;
 ; Average fan-out                             ; 2.94                 ;
 +---------------------------------------------+----------------------+
 
@@ -283,16 +283,15 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +---------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------+--------------+
 ; Compilation Hierarchy Node                  ; LC Combinationals ; LC Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name                                                                                                           ; Library Name ;
 +---------------------------------------------+-------------------+--------------+-------------+--------------+---------+-----------+------+--------------+-------------------------------------------------------------------------------------------------------------------------------+--------------+
-; |calculator                                 ; 18205 (2159)      ; 181 (181)    ; 0           ; 6            ; 0       ; 3         ; 31   ; 0            ; |calculator                                                                                                                   ; work         ;
-;    |lpm_divide:Div0|                        ; 1133 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0                                                                                                   ; work         ;
-;       |lpm_divide_92p:auto_generated|       ; 1133 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated                                                                     ; work         ;
-;          |abs_divider_4dg:divider|          ; 1133 (64)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider                                             ; work         ;
+; |calculator                                 ; 18266 (2225)      ; 184 (184)    ; 0           ; 6            ; 0       ; 3         ; 31   ; 0            ; |calculator                                                                                                                   ; work         ;
+;    |lpm_divide:Div0|                        ; 1117 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0                                                                                                   ; work         ;
+;       |lpm_divide_92p:auto_generated|       ; 1117 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated                                                                     ; work         ;
+;          |abs_divider_4dg:divider|          ; 1117 (64)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider                                             ; work         ;
 ;             |alt_u_div_6af:divider|         ; 1048 (1048)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider|alt_u_div_6af:divider                       ; work         ;
-;             |lpm_abs_i0a:my_abs_den|        ; 14 (14)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_den                      ; work         ;
-;             |lpm_abs_i0a:my_abs_num|        ; 7 (7)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
-;    |lpm_divide:Div1|                        ; 470 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1                                                                                                   ; work         ;
-;       |lpm_divide_p0p:auto_generated|       ; 470 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated                                                                     ; work         ;
-;          |abs_divider_kbg:divider|          ; 470 (10)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider                                             ; work         ;
+;             |lpm_abs_i0a:my_abs_num|        ; 5 (5)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div0|lpm_divide_92p:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
+;    |lpm_divide:Div1|                        ; 469 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1                                                                                                   ; work         ;
+;       |lpm_divide_p0p:auto_generated|       ; 469 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated                                                                     ; work         ;
+;          |abs_divider_kbg:divider|          ; 469 (9)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider                                             ; work         ;
 ;             |alt_u_div_67f:divider|         ; 449 (449)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider|alt_u_div_67f:divider                       ; work         ;
 ;             |lpm_abs_i0a:my_abs_num|        ; 11 (11)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div1|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
 ;    |lpm_divide:Div2|                        ; 635 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div2                                                                                                   ; work         ;
@@ -327,19 +326,19 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;          |abs_divider_nbg:divider|          ; 673 (10)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div8|lpm_divide_s0p:auto_generated|abs_divider_nbg:divider                                             ; work         ;
 ;             |alt_u_div_c7f:divider|         ; 625 (625)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div8|lpm_divide_s0p:auto_generated|abs_divider_nbg:divider|alt_u_div_c7f:divider                       ; work         ;
 ;             |lpm_abs_i0a:my_abs_num|        ; 38 (38)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div8|lpm_divide_s0p:auto_generated|abs_divider_nbg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
-;    |lpm_divide:Div9|                        ; 514 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9                                                                                                   ; work         ;
-;       |lpm_divide_p0p:auto_generated|       ; 514 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated                                                                     ; work         ;
-;          |abs_divider_kbg:divider|          ; 514 (10)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider                                             ; work         ;
+;    |lpm_divide:Div9|                        ; 508 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9                                                                                                   ; work         ;
+;       |lpm_divide_p0p:auto_generated|       ; 508 (0)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated                                                                     ; work         ;
+;          |abs_divider_kbg:divider|          ; 508 (10)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider                                             ; work         ;
 ;             |alt_u_div_67f:divider|         ; 449 (449)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider|alt_u_div_67f:divider                       ; work         ;
-;             |lpm_abs_i0a:my_abs_num|        ; 55 (55)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
-;    |lpm_divide:Mod0|                        ; 1258 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0                                                                                                   ; work         ;
-;       |lpm_divide_cqo:auto_generated|       ; 1258 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated                                                                     ; work         ;
-;          |abs_divider_4dg:divider|          ; 1258 (64)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider                                             ; work         ;
+;             |lpm_abs_i0a:my_abs_num|        ; 49 (49)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Div9|lpm_divide_p0p:auto_generated|abs_divider_kbg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
+;    |lpm_divide:Mod0|                        ; 1274 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0                                                                                                   ; work         ;
+;       |lpm_divide_cqo:auto_generated|       ; 1274 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated                                                                     ; work         ;
+;          |abs_divider_4dg:divider|          ; 1274 (64)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider                                             ; work         ;
 ;             |alt_u_div_6af:divider|         ; 1149 (1146)       ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|alt_u_div_6af:divider                       ; work         ;
 ;                |add_sub_7pc:add_sub_0|      ; 1 (1)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|alt_u_div_6af:divider|add_sub_7pc:add_sub_0 ; work         ;
 ;                |add_sub_8pc:add_sub_1|      ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|alt_u_div_6af:divider|add_sub_8pc:add_sub_1 ; work         ;
-;             |lpm_abs_i0a:my_abs_den|        ; 31 (31)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_den                      ; work         ;
-;             |lpm_abs_i0a:my_abs_num|        ; 14 (14)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
+;             |lpm_abs_i0a:my_abs_den|        ; 45 (45)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_den                      ; work         ;
+;             |lpm_abs_i0a:my_abs_num|        ; 16 (16)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod0|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
 ;    |lpm_divide:Mod1|                        ; 1251 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod1                                                                                                   ; work         ;
 ;       |lpm_divide_cqo:auto_generated|       ; 1251 (0)          ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod1|lpm_divide_cqo:auto_generated                                                                     ; work         ;
 ;          |abs_divider_4dg:divider|          ; 1251 (60)         ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod1|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider                                             ; work         ;
@@ -367,13 +366,13 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;             |lpm_abs_i0a:my_abs_num|        ; 2 (2)             ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_divide:Mod5|lpm_divide_cqo:auto_generated|abs_divider_4dg:divider|lpm_abs_i0a:my_abs_num                      ; work         ;
 ;    |lpm_mult:Mult0|                         ; 28 (0)            ; 0 (0)        ; 0           ; 6            ; 0       ; 3         ; 0    ; 0            ; |calculator|lpm_mult:Mult0                                                                                                    ; work         ;
 ;       |mult_46t:auto_generated|             ; 28 (28)           ; 0 (0)        ; 0           ; 6            ; 0       ; 3         ; 0    ; 0            ; |calculator|lpm_mult:Mult0|mult_46t:auto_generated                                                                            ; work         ;
-;    |lpm_mult:Mult1|                         ; 26 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1                                                                                                    ; work         ;
-;       |multcore:mult_core|                  ; 26 (13)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1|multcore:mult_core                                                                                 ; work         ;
+;    |lpm_mult:Mult1|                         ; 27 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1                                                                                                    ; work         ;
+;       |multcore:mult_core|                  ; 27 (14)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1|multcore:mult_core                                                                                 ; work         ;
 ;          |mpar_add:padder|                  ; 13 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1|multcore:mult_core|mpar_add:padder                                                                 ; work         ;
 ;             |lpm_add_sub:adder[0]|          ; 13 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]                                            ; work         ;
 ;                |add_sub_lgh:auto_generated| ; 13 (13)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult1|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]|add_sub_lgh:auto_generated                 ; work         ;
-;    |lpm_mult:Mult2|                         ; 20 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2                                                                                                    ; work         ;
-;       |multcore:mult_core|                  ; 20 (9)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2|multcore:mult_core                                                                                 ; work         ;
+;    |lpm_mult:Mult2|                         ; 21 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2                                                                                                    ; work         ;
+;       |multcore:mult_core|                  ; 21 (10)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2|multcore:mult_core                                                                                 ; work         ;
 ;          |mpar_add:padder|                  ; 11 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2|multcore:mult_core|mpar_add:padder                                                                 ; work         ;
 ;             |lpm_add_sub:adder[0]|          ; 11 (0)            ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]                                            ; work         ;
 ;                |add_sub_rgh:auto_generated| ; 11 (11)           ; 0 (0)        ; 0           ; 0            ; 0       ; 0         ; 0    ; 0            ; |calculator|lpm_mult:Mult2|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]|add_sub_rgh:auto_generated                 ; work         ;
@@ -426,19 +425,20 @@ Encoding Type:  One-Hot
 +--------------------------------+--------------+--------------------------------+--------------------------------+--------------------------------+--------------------------------+--------------------------------+-------------------------------+----------------+
 
 
-+---------------------------------------------------------------------------------+
-; Registers Removed During Synthesis                                              ;
-+----------------------------------------+----------------------------------------+
-; Register name                          ; Reason for Removal                     ;
-+----------------------------------------+----------------------------------------+
-; sevensegment_databus[7]~reg0           ; Stuck at GND due to stuck port data_in ;
-; display_status[2..31]                  ; Merged with display_status[1]          ;
-; operation_status[2..9,11..31]          ; Merged with operation_status[10]       ;
-; operation_status[10]                   ; Stuck at GND due to stuck port data_in ;
-; display_status[1]                      ; Stuck at GND due to stuck port data_in ;
-; program_counter[21..31]                ; Lost fanout                            ;
-; Total Number of Removed Registers = 73 ;                                        ;
-+----------------------------------------+----------------------------------------+
++----------------------------------------------------------------------------------+
+; Registers Removed During Synthesis                                               ;
++-----------------------------------------+----------------------------------------+
+; Register name                           ; Reason for Removal                     ;
++-----------------------------------------+----------------------------------------+
+; sevensegment_databus[7]~reg0            ; Stuck at GND due to stuck port data_in ;
+; display_status[2..31]                   ; Merged with display_status[1]          ;
+; operation_status[2..9,11..31]           ; Merged with operation_status[10]       ;
+; alt_operation_status[2..9,11..31]       ; Merged with alt_operation_status[10]   ;
+; operation_status[10]                    ; Stuck at GND due to stuck port data_in ;
+; display_status[1]                       ; Stuck at GND due to stuck port data_in ;
+; program_counter[21..31]                 ; Lost fanout                            ;
+; Total Number of Removed Registers = 102 ;                                        ;
++-----------------------------------------+----------------------------------------+
 
 
 +------------------------------------------------------+
@@ -446,9 +446,9 @@ Encoding Type:  One-Hot
 +----------------------------------------------+-------+
 ; Statistic                                    ; Value ;
 +----------------------------------------------+-------+
-; Total registers                              ; 181   ;
+; Total registers                              ; 184   ;
 ; Number of registers using Synchronous Clear  ; 0     ;
-; Number of registers using Synchronous Load   ; 16    ;
+; Number of registers using Synchronous Load   ; 18    ;
 ; Number of registers using Asynchronous Clear ; 0     ;
 ; Number of registers using Asynchronous Load  ; 0     ;
 ; Number of registers using Clock Enable       ; 98    ;
@@ -473,11 +473,10 @@ Encoding Type:  One-Hot
 ; digit1_segmentcode[4]                   ; 13      ;
 ; digit3_segmentcode[2]                   ; 20      ;
 ; digit3_segmentcode[4]                   ; 15      ;
-; entered_operator[2]                     ; 3       ;
-; entered_operator[0]                     ; 35      ;
-; entering_operator[2]                    ; 4       ;
-; entering_operator[0]                    ; 4       ;
-; Total number of inverted registers = 16 ;         ;
+; alt_operation_status[1]                 ; 4       ;
+; entered_operator[2]                     ; 7       ;
+; entering_operator[2]                    ; 5       ;
+; Total number of inverted registers = 15 ;         ;
 +-----------------------------------------+---------+
 
 
@@ -487,22 +486,22 @@ Encoding Type:  One-Hot
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output               ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------+
 ; 6:1                ; 7 bits    ; 28 LEs        ; 28 LEs               ; 0 LEs                  ; Yes        ; |calculator|sevensegment_databus[6]~reg0 ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |calculator|display_status[1]            ;
-; 8:1                ; 2 bits    ; 10 LEs        ; 4 LEs                ; 6 LEs                  ; Yes        ; |calculator|operation_status[0]          ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |calculator|display_status[0]            ;
+; 6:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |calculator|entered_operator[0]          ;
+; 7:1                ; 2 bits    ; 8 LEs         ; 4 LEs                ; 4 LEs                  ; Yes        ; |calculator|operation_status[0]          ;
 ; 22:1               ; 3 bits    ; 42 LEs        ; 18 LEs               ; 24 LEs                 ; Yes        ; |calculator|digit5_segmentcode[0]        ;
-; 7:1                ; 2 bits    ; 8 LEs         ; 2 LEs                ; 6 LEs                  ; Yes        ; |calculator|entered_operator[2]          ;
-; 20:1               ; 32 bits   ; 416 LEs       ; 192 LEs              ; 224 LEs                ; Yes        ; |calculator|operation_result[3]          ;
-; 12:1               ; 9 bits    ; 72 LEs        ; 9 LEs                ; 63 LEs                 ; Yes        ; |calculator|memorized_value[28]          ;
+; 21:1               ; 32 bits   ; 448 LEs       ; 192 LEs              ; 256 LEs                ; Yes        ; |calculator|operation_result[4]          ;
+; 13:1               ; 9 bits    ; 72 LEs        ; 18 LEs               ; 54 LEs                 ; Yes        ; |calculator|memorized_value[26]          ;
 ; 22:1               ; 2 bits    ; 28 LEs        ; 12 LEs               ; 16 LEs                 ; Yes        ; |calculator|digit5_segmentcode[4]        ;
-; 23:1               ; 5 bits    ; 75 LEs        ; 45 LEs               ; 30 LEs                 ; Yes        ; |calculator|digit4_segmentcode[0]        ;
-; 24:1               ; 5 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |calculator|digit3_segmentcode[3]        ;
-; 25:1               ; 5 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |calculator|digit2_segmentcode[4]        ;
-; 26:1               ; 5 bits    ; 85 LEs        ; 35 LEs               ; 50 LEs                 ; Yes        ; |calculator|digit1_segmentcode[0]        ;
-; 54:1               ; 3 bits    ; 108 LEs       ; 39 LEs               ; 69 LEs                 ; Yes        ; |calculator|memorized_value[20]          ;
-; 54:1               ; 4 bits    ; 144 LEs       ; 72 LEs               ; 72 LEs                 ; Yes        ; |calculator|memorized_value[19]          ;
-; 54:1               ; 3 bits    ; 108 LEs       ; 69 LEs               ; 39 LEs                 ; Yes        ; |calculator|memorized_value[15]          ;
-; 54:1               ; 4 bits    ; 144 LEs       ; 112 LEs              ; 32 LEs                 ; Yes        ; |calculator|memorized_value[11]          ;
-; 54:1               ; 6 bits    ; 216 LEs       ; 186 LEs              ; 30 LEs                 ; Yes        ; |calculator|memorized_value[8]           ;
+; 23:1               ; 5 bits    ; 75 LEs        ; 40 LEs               ; 35 LEs                 ; Yes        ; |calculator|digit4_segmentcode[3]        ;
+; 24:1               ; 5 bits    ; 80 LEs        ; 40 LEs               ; 40 LEs                 ; Yes        ; |calculator|digit3_segmentcode[0]        ;
+; 25:1               ; 5 bits    ; 80 LEs        ; 35 LEs               ; 45 LEs                 ; Yes        ; |calculator|digit2_segmentcode[0]        ;
+; 26:1               ; 5 bits    ; 85 LEs        ; 30 LEs               ; 55 LEs                 ; Yes        ; |calculator|digit1_segmentcode[1]        ;
+; 55:1               ; 3 bits    ; 108 LEs       ; 42 LEs               ; 66 LEs                 ; Yes        ; |calculator|memorized_value[22]          ;
+; 55:1               ; 4 bits    ; 144 LEs       ; 76 LEs               ; 68 LEs                 ; Yes        ; |calculator|memorized_value[18]          ;
+; 55:1               ; 3 bits    ; 108 LEs       ; 72 LEs               ; 36 LEs                 ; Yes        ; |calculator|memorized_value[15]          ;
+; 55:1               ; 4 bits    ; 144 LEs       ; 112 LEs              ; 32 LEs                 ; Yes        ; |calculator|memorized_value[12]          ;
+; 55:1               ; 6 bits    ; 216 LEs       ; 192 LEs              ; 24 LEs                 ; Yes        ; |calculator|memorized_value[8]           ;
 ; 13:1               ; 6 bits    ; 48 LEs        ; 42 LEs               ; 6 LEs                  ; No         ; |calculator|status                       ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+------------------------------------------+
 
@@ -830,6 +829,29 @@ Note: In order to hide this table in the UI and the text report file, please set
 
 
 +------------------------------------------------------------------+
+; Parameter Settings for Inferred Entity Instance: lpm_divide:Mod0 ;
++------------------------+----------------+------------------------+
+; Parameter Name         ; Value          ; Type                   ;
++------------------------+----------------+------------------------+
+; LPM_WIDTHN             ; 32             ; Untyped                ;
+; LPM_WIDTHD             ; 32             ; Untyped                ;
+; LPM_NREPRESENTATION    ; SIGNED         ; Untyped                ;
+; LPM_DREPRESENTATION    ; SIGNED         ; Untyped                ;
+; LPM_PIPELINE           ; 0              ; Untyped                ;
+; LPM_REMAINDERPOSITIVE  ; FALSE          ; Untyped                ;
+; MAXIMIZE_SPEED         ; 5              ; Untyped                ;
+; CBXI_PARAMETER         ; lpm_divide_cqo ; Untyped                ;
+; CARRY_CHAIN            ; MANUAL         ; Untyped                ;
+; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                ;
+; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY             ;
+; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY           ;
+; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE           ;
+; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE         ;
++------------------------+----------------+------------------------+
+Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
+
+
++------------------------------------------------------------------+
 ; Parameter Settings for Inferred Entity Instance: lpm_divide:Div0 ;
 +------------------------+----------------+------------------------+
 ; Parameter Name         ; Value          ; Type                   ;
@@ -884,29 +906,6 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; INPUT_B_FIXED_VALUE                            ; Bx           ; Untyped             ;
 ; USE_AHDL_IMPLEMENTATION                        ; OFF          ; Untyped             ;
 +------------------------------------------------+--------------+---------------------+
-Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
-
-
-+------------------------------------------------------------------+
-; Parameter Settings for Inferred Entity Instance: lpm_divide:Mod0 ;
-+------------------------+----------------+------------------------+
-; Parameter Name         ; Value          ; Type                   ;
-+------------------------+----------------+------------------------+
-; LPM_WIDTHN             ; 32             ; Untyped                ;
-; LPM_WIDTHD             ; 32             ; Untyped                ;
-; LPM_NREPRESENTATION    ; SIGNED         ; Untyped                ;
-; LPM_DREPRESENTATION    ; SIGNED         ; Untyped                ;
-; LPM_PIPELINE           ; 0              ; Untyped                ;
-; LPM_REMAINDERPOSITIVE  ; FALSE          ; Untyped                ;
-; MAXIMIZE_SPEED         ; 5              ; Untyped                ;
-; CBXI_PARAMETER         ; lpm_divide_cqo ; Untyped                ;
-; CARRY_CHAIN            ; MANUAL         ; Untyped                ;
-; OPTIMIZE_FOR_SPEED     ; 5              ; Untyped                ;
-; AUTO_CARRY_CHAINS      ; ON             ; AUTO_CARRY             ;
-; IGNORE_CARRY_BUFFERS   ; OFF            ; IGNORE_CARRY           ;
-; AUTO_CASCADE_CHAINS    ; ON             ; AUTO_CASCADE           ;
-; IGNORE_CASCADE_BUFFERS ; OFF            ; IGNORE_CASCADE         ;
-+------------------------+----------------+------------------------+
 Note: In order to hide this table in the UI and the text report file, please set the "Show Parameter Settings in Synthesis Report" option in "Analysis and Synthesis Settings -> More Settings" to "Off".
 
 
@@ -1119,7 +1118,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:30     ;
+; Top            ; 00:00:29     ;
 +----------------+--------------+
 
 
@@ -1129,7 +1128,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.1.0 Build 162 10/23/2013 SJ Web Edition
-    Info: Processing started: Wed Jul 01 19:18:34 2020
+    Info: Processing started: Thu Jul 02 08:34:49 2020
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off designproject-calculator -c calculator
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Warning (12125): Using design file calculator.vhd, which is not specified as a design file for the current project, but contains definitions for 2 design units and 1 entities in project
@@ -1151,9 +1150,9 @@ Info (278001): Inferred 21 megafunctions from design logic
     Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Div6"
     Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Div4"
     Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Div5"
+    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Mod0"
     Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Div0"
     Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult0"
-    Info (278004): Inferred divider/modulo megafunction ("lpm_divide") from the following logic: "Mod0"
     Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult4"
     Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult3"
     Info (278003): Inferred multiplier megafunction ("lpm_mult") from the following logic: "Mult1"
@@ -1280,6 +1279,13 @@ Info (12021): Found 1 design units, including 1 entities, in source file db/alt_
     Info (12023): Found entity 1: alt_u_div_eaf
 Info (12021): Found 1 design units, including 1 entities, in source file db/lpm_abs_m0a.tdf
     Info (12023): Found entity 1: lpm_abs_m0a
+Info (12130): Elaborated megafunction instantiation "lpm_divide:Mod0"
+Info (12133): Instantiated megafunction "lpm_divide:Mod0" with the following parameter:
+    Info (12134): Parameter "LPM_WIDTHN" = "32"
+    Info (12134): Parameter "LPM_WIDTHD" = "32"
+    Info (12134): Parameter "LPM_NREPRESENTATION" = "SIGNED"
+    Info (12134): Parameter "LPM_DREPRESENTATION" = "SIGNED"
+    Info (12134): Parameter "LPM_HINT" = "LPM_REMAINDERPOSITIVE=FALSE"
 Info (12130): Elaborated megafunction instantiation "lpm_divide:Div0"
 Info (12133): Instantiated megafunction "lpm_divide:Div0" with the following parameter:
     Info (12134): Parameter "LPM_WIDTHN" = "32"
@@ -1302,13 +1308,6 @@ Info (12133): Instantiated megafunction "lpm_mult:Mult0" with the following para
     Info (12134): Parameter "MAXIMIZE_SPEED" = "5"
 Info (12021): Found 1 design units, including 1 entities, in source file db/mult_46t.tdf
     Info (12023): Found entity 1: mult_46t
-Info (12130): Elaborated megafunction instantiation "lpm_divide:Mod0"
-Info (12133): Instantiated megafunction "lpm_divide:Mod0" with the following parameter:
-    Info (12134): Parameter "LPM_WIDTHN" = "32"
-    Info (12134): Parameter "LPM_WIDTHD" = "32"
-    Info (12134): Parameter "LPM_NREPRESENTATION" = "SIGNED"
-    Info (12134): Parameter "LPM_DREPRESENTATION" = "SIGNED"
-    Info (12134): Parameter "LPM_HINT" = "LPM_REMAINDERPOSITIVE=FALSE"
 Info (12130): Elaborated megafunction instantiation "lpm_mult:Mult4"
 Info (12133): Instantiated megafunction "lpm_mult:Mult4" with the following parameter:
     Info (12134): Parameter "LPM_WIDTHA" = "5"
@@ -1390,14 +1389,14 @@ Info (286030): Timing-Driven Synthesis is running
 Info (17049): 11 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 18268 device resources after synthesis - the final resource count might be different
+Info (21057): Implemented 18331 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 17 input pins
     Info (21059): Implemented 14 output pins
-    Info (21061): Implemented 18231 logic cells
+    Info (21061): Implemented 18294 logic cells
     Info (21062): Implemented 6 DSP elements
 Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 8 warnings
-    Info: Peak virtual memory: 4854 megabytes
-    Info: Processing ended: Wed Jul 01 19:19:08 2020
+    Info: Peak virtual memory: 4853 megabytes
+    Info: Processing ended: Thu Jul 02 08:35:23 2020
     Info: Elapsed time: 00:00:34
     Info: Total CPU time (on all processors): 00:00:34
 

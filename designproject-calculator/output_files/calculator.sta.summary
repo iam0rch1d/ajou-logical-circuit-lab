@@ -3,27 +3,27 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'program_counter[20]'
-Slack : -188.105
-TNS   : -9126.832
+Slack : -186.058
+TNS   : -9149.424
 
 Type  : Slow 1200mV 85C Model Setup 'program_counter[16]'
-Slack : -3.340
-TNS   : -27.835
+Slack : -3.105
+TNS   : -22.223
 
 Type  : Slow 1200mV 85C Model Setup 'clock_50mhz'
-Slack : -1.495
-TNS   : -18.656
+Slack : -1.491
+TNS   : -17.932
 
 Type  : Slow 1200mV 85C Model Hold 'clock_50mhz'
-Slack : -0.603
-TNS   : -1.471
+Slack : -0.659
+TNS   : -1.751
 
 Type  : Slow 1200mV 85C Model Hold 'program_counter[16]'
-Slack : 0.339
+Slack : 0.283
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'program_counter[20]'
-Slack : 0.344
+Slack : 0.357
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clock_50mhz'
@@ -32,34 +32,34 @@ TNS   : -24.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'program_counter[20]'
 Slack : -2.484
-TNS   : -178.776
+TNS   : -181.776
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'program_counter[16]'
 Slack : -1.000
 TNS   : -16.000
 
 Type  : Slow 1200mV 0C Model Setup 'program_counter[20]'
-Slack : -168.392
-TNS   : -8124.552
+Slack : -166.296
+TNS   : -8154.571
 
 Type  : Slow 1200mV 0C Model Setup 'program_counter[16]'
-Slack : -2.923
-TNS   : -23.225
+Slack : -2.729
+TNS   : -18.417
 
 Type  : Slow 1200mV 0C Model Setup 'clock_50mhz'
-Slack : -1.191
-TNS   : -14.176
+Slack : -1.189
+TNS   : -13.548
 
 Type  : Slow 1200mV 0C Model Hold 'clock_50mhz'
-Slack : -0.532
-TNS   : -1.314
-
-Type  : Slow 1200mV 0C Model Hold 'program_counter[20]'
-Slack : 0.301
-TNS   : 0.000
+Slack : -0.581
+TNS   : -1.559
 
 Type  : Slow 1200mV 0C Model Hold 'program_counter[16]'
-Slack : 0.311
+Slack : 0.256
+TNS   : 0.000
+
+Type  : Slow 1200mV 0C Model Hold 'program_counter[20]'
+Slack : 0.312
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clock_50mhz'
@@ -68,43 +68,43 @@ TNS   : -24.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'program_counter[20]'
 Slack : -2.484
-TNS   : -178.776
+TNS   : -181.776
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'program_counter[16]'
 Slack : -1.000
 TNS   : -16.000
 
 Type  : Fast 1200mV 0C Model Setup 'program_counter[20]'
-Slack : -106.608
-TNS   : -5161.852
+Slack : -105.419
+TNS   : -5167.902
 
 Type  : Fast 1200mV 0C Model Setup 'program_counter[16]'
-Slack : -1.533
-TNS   : -10.668
+Slack : -1.374
+TNS   : -8.398
 
 Type  : Fast 1200mV 0C Model Setup 'clock_50mhz'
-Slack : -0.422
-TNS   : -2.823
+Slack : -0.419
+TNS   : -2.423
 
 Type  : Fast 1200mV 0C Model Hold 'clock_50mhz'
-Slack : -0.369
-TNS   : -0.991
-
-Type  : Fast 1200mV 0C Model Hold 'program_counter[20]'
-Slack : 0.180
-TNS   : 0.000
+Slack : -0.382
+TNS   : -1.056
 
 Type  : Fast 1200mV 0C Model Hold 'program_counter[16]'
-Slack : 0.188
+Slack : 0.149
+TNS   : 0.000
+
+Type  : Fast 1200mV 0C Model Hold 'program_counter[20]'
+Slack : 0.186
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clock_50mhz'
 Slack : -3.000
-TNS   : -25.162
+TNS   : -25.227
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'program_counter[20]'
 Slack : -1.000
-TNS   : -158.000
+TNS   : -161.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'program_counter[16]'
 Slack : -1.000
