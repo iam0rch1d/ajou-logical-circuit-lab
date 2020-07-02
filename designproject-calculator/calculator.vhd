@@ -21,6 +21,7 @@ architecture behavior of calculator is
 		OPERAND_4DIGITS_ENTERED,
 		OPERAND_5DIGITS_ENTERED,
 		OPERAND_6DIGITS_ENTERED,
+		RESULT,
 		ERROR
 	);
 
@@ -36,7 +37,7 @@ architecture behavior of calculator is
 
 	signal memorized_value : integer := 0;
 	signal operation_status : integer := 0;
-	signal alt_operation_status : integer := 2;
+	signal alt_operation_status : integer := 1;
 	signal display_status : integer := 0;
 	signal operation_result : integer := 0;
 	signal digit5_segmentcode : integer range 0 to 20 := 20;
@@ -46,8 +47,8 @@ architecture behavior of calculator is
 	signal digit1_segmentcode : integer range 0 to 20 := 20;
 	signal digit0_segmentcode : integer range 0 to 20 := 0;
 
-	signal entered_operator : integer range 0 to 7 := 4;
-	signal entering_operator : integer range 0 to 7 := 4;
+	signal entered_operator : integer := 4;
+	signal entering_operator : integer := 4;
 
 	signal sevensegment_clock : std_logic;
 	signal sevensegment_counter : integer range 5 downto 0;
@@ -87,20 +88,20 @@ architecture behavior of calculator is
 					keypad_toggle <= '1';
 				elsif (operation_status = 1) then
 					case entered_operator is
-						when 0 => operation_result <= operation_result + memorized_value;
-						when 1 => operation_result <= operation_result - memorized_value;
-						when 2 => operation_result <= operation_result * memorized_value;
-						when 3 =>
-							if (memorized_value /= 0 ) then
+						when 0 => operation_result <= operation_result + memorized_value; -- Add('+')
+						when 1 => operation_result <= operation_result - memorized_value; -- Subtraction('-')
+						when 2 => operation_result <= operation_result * memorized_value; -- Multiplication('*')
+						when 3 => -- Division('/')
+							if (memorized_value /= 0) then
 								operation_result <= operation_result / memorized_value;
-							elsif (memorized_value = 0 and alt_operation_status /= 3) then -- If dividing by 0
+							elsif (memorized_value = 0 and alt_operation_status /= 2) then -- If dividing by 0
 								operation_result <= 2147483647;
 							end if;
-						when 6 => operation_result <= operation_result mod memorized_value;
+						when 4 => operation_result <= operation_result mod memorized_value; -- Modulus('%', as '+/')
 						when others => operation_result <= memorized_value;
 					end case;
 
-					if (entering_operator = 4) then
+					if (entering_operator = 5) then
 						operation_status <= 2;
 					else
 						operation_status <= 0;
@@ -108,12 +109,12 @@ architecture behavior of calculator is
 						display_status <= 1;
 					end if;
 				elsif (operation_status = 2) then
+					status <= INITIAL;
 					operation_result <= operation_result;
 					operation_status <= 0;
 					memorized_value <= operation_result;
 					display_status <= 1;
-					status <= operaND_1DIGIT_ENTERED;
-					alt_operation_status <= 2;
+					alt_operation_status <= 1;
 				elsif (display_status = 1) then
 					display_status <= 0;
 					
@@ -216,811 +217,832 @@ architecture behavior of calculator is
 					-- [1][2][3][-]
 					-- [0][C][=][+]
 					case keypad_status_primary is
-
-					-- Pressed button [7]
-					when X"0001" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 7;
-							memorized_value <= 7;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 7;
-							memorized_value <= digit0_segmentcode * 10 + 7;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 7;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 7;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 7;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 7;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 7;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 7;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 7;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 7;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [8]
-					when X"0002" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 8;
-							memorized_value <= 8;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 8;
-							memorized_value <= digit0_segmentcode * 10 + 8;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 8;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 8;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 8;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 8;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 8;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 8;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 8;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 8;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [9]
-					when X"0004" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 9;
-							memorized_value <= 9;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 9;
-							memorized_value <= digit0_segmentcode * 10 + 9;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 9;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 9;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 9;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 9;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 9;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 9;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 9;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 9;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [/]
-					when X"0008" => 
-						if (status = INITIAL and alt_operation_status /= 0) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 0;
-						elsif(status = INITIAL and alt_operation_status = 0) then
-							  status <= INITIAL;
-							operation_status <= 1;
-							entered_operator <= entering_operator;
-							entering_operator <= 6;
-							alt_operation_status <= 2;
-						else 
-							status <= INITIAL;
-							operation_status <= 1;
-							entered_operator <= entering_operator;
-							entering_operator <= 3;
-							alt_operation_status <= 3;
-						end if;
-
-					-- Pressed button [4]
-					when X"0010" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 4;
-							memorized_value <= 4;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 4;
-							memorized_value <= digit0_segmentcode * 10 + 4;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 4;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 4;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 4;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 4;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 4;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 4;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 4;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 4;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [5]
-					when X"0020" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 5;
-							memorized_value <= 5;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 5;
-							memorized_value <= digit0_segmentcode * 10 + 5;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 5;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 5;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 5;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 5;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 5;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 5;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 5;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 5;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
+						-- Pressed button [7]
+						when X"0001" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 7;
+								memorized_value <= 7;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 7;
+								memorized_value <= digit0_segmentcode * 10 + 7;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 7;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 7;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 7;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 7;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 7;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 7;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 7;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 7;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
 							end if;
 
-					-- Pressed button [6]
-					when X"0040" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 6;
-							memorized_value <= 6;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 6;
-							memorized_value <= digit0_segmentcode * 10 + 6;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 6;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 6;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 6;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 6;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 6;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 6;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 6;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 6;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
+						-- Pressed button [8]
+						when X"0002" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 8;
+								memorized_value <= 8;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 8;
+								memorized_value <= digit0_segmentcode * 10 + 8;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 8;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 8;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 8;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 8;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 8;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 8;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 8;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 8;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
 							end if;
 
-					-- Pressed button [*]
-					when X"0080" => 
-						if (status = INITIAL) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 0;
-						else 
+						-- Pressed button [9]
+						when X"0004" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 9;
+								memorized_value <= 9;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 9;
+								memorized_value <= digit0_segmentcode * 10 + 9;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 9;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 9;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 9;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 9;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 9;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 9;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 9;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 9;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [/]
+						when X"0008" => 
+							if (status = INITIAL and alt_operation_status /= 0) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							elsif (status = INITIAL and alt_operation_status = 0) then
+								status <= INITIAL;
+								operation_status <= 1;
+								entered_operator <= entering_operator;
+								entering_operator <= 4;
+								alt_operation_status <= 1;
+							else 
+								status <= INITIAL;
+								operation_status <= 1;
+								entered_operator <= entering_operator;
+								entering_operator <= 3;
+								alt_operation_status <= 2;
+							end if;
+
+						-- Pressed button [4]
+						when X"0010" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 4;
+								memorized_value <= 4;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 4;
+								memorized_value <= digit0_segmentcode * 10 + 4;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 4;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 4;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 4;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 4;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 4;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 4;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 4;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 4;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [5]
+						when X"0020" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 5;
+								memorized_value <= 5;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 5;
+								memorized_value <= digit0_segmentcode * 10 + 5;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 5;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 5;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 5;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 5;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 5;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 5;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 5;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 5;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+								end if;
+
+						-- Pressed button [6]
+						when X"0040" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 6;
+								memorized_value <= 6;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 6;
+								memorized_value <= digit0_segmentcode * 10 + 6;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 6;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 6;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 6;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 6;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 6;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 6;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 6;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 6;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+								end if;
+
+						-- Pressed button [*]
+						when X"0080" => 
+							if (status = INITIAL) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else 
+								status <= INITIAL;
+								operation_status <= 1;
+								entered_operator <= entering_operator;
+								entering_operator <= 2;
+							end if;
+
+						-- Pressed button [1]
+						when X"0100" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 1;
+								memorized_value <= 1;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 1;
+								memorized_value <= digit0_segmentcode * 10 + 1;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 1;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 1;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 1;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 1;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 1;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 1;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 1;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 1;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [2]
+						when X"0200" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 2;
+								memorized_value <= 2;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 2;
+								memorized_value <= digit0_segmentcode * 10 + 2;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 2;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 2;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 2;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 2;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 2;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 2;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 2;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 2;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [3]
+						when X"0400" => 
+							if (status = INITIAL or status = ERROR) then
+								status <= OPERAND_1DIGIT_ENTERED;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 3;
+								memorized_value <= 3;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 3;
+								memorized_value <= digit0_segmentcode * 10 + 3;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 3;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 3;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 3;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 3;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 3;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 3;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 3;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10
+									+ 3;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [-]
+						when X"0800" => 
+							if (status = INITIAL and alt_operation_status /= 0) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							elsif (status = INITIAL and alt_operation_status = 0) then
+								status <= INITIAL;
+								operation_status <= 1; 
+								alt_operation_status <= 1;
+								memorized_value <= memorized_value - 1; 
+								entered_operator <= entering_operator;
+								entering_operator <= 5;
+							else 
+								status <= INITIAL;
+								operation_status <= 1;
+								alt_operation_status <= 0;
+								entered_operator <= entering_operator;
+								entering_operator <= 1;
+							end if;
+
+						-- Pressed button [0]
+						when X"1000" => 
+							if (status = INITIAL or status = ERROR) then
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 0;
+								memorized_value <= 0;
+							elsif (status = OPERAND_1DIGIT_ENTERED) then
+								status <= OPERAND_2DIGITS_ENTERED;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 0;
+								memorized_value <= digit0_segmentcode * 10;
+							elsif (status = OPERAND_2DIGITS_ENTERED) then
+								status <= OPERAND_3DIGITS_ENTERED;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 0;
+								memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10;
+							elsif (status = OPERAND_3DIGITS_ENTERED) then
+								status <= OPERAND_4DIGITS_ENTERED;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 0;
+								memorized_value <= digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10;
+							elsif (status = OPERAND_4DIGITS_ENTERED) then
+								status <= OPERAND_5DIGITS_ENTERED;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 0;
+								memorized_value <= digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10;
+							elsif (status = OPERAND_5DIGITS_ENTERED) then
+								status <= OPERAND_6DIGITS_ENTERED;
+								digit5_segmentcode <= digit4_segmentcode;
+								digit4_segmentcode <= digit3_segmentcode;
+								digit3_segmentcode <= digit2_segmentcode;
+								digit2_segmentcode <= digit1_segmentcode;
+								digit1_segmentcode <= digit0_segmentcode;
+								digit0_segmentcode <= 0;
+								memorized_value <= digit4_segmentcode * 100000
+									+ digit3_segmentcode * 10000
+									+ digit2_segmentcode * 1000
+									+ digit1_segmentcode * 100
+									+ digit0_segmentcode * 10;
+							elsif (status = OPERAND_6DIGITS_ENTERED) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							else null;
+							end if;
+
+						-- Pressed button [C]
+						when X"2000" => 
 							status <= INITIAL;
-							operation_status <= 1;
-							entered_operator <= entering_operator;
-							entering_operator <= 2;
-						end if;
-
-					-- Pressed button [1]
-					when X"0100" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 1;
-							memorized_value <= 1;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 1;
-							memorized_value <= digit0_segmentcode * 10 + 1;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 1;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 1;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 1;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 1;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 1;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 1;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 1;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 1;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [2]
-					when X"0200" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 2;
-							memorized_value <= 2;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 2;
-							memorized_value <= digit0_segmentcode * 10 + 2;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 2;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 2;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 2;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 2;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 2;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 2;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 2;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 2;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [3]
-					when X"0400" => 
-						if (status = INITIAL or status = ERROR) then
-							status <= OPERAND_1DIGIT_ENTERED;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 3;
-							memorized_value <= 3;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 3;
-							memorized_value <= digit0_segmentcode * 10 + 3;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 3;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10 + 3;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 3;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 3;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 3;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 3;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 3;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10
-								+ 3;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
-
-					-- Pressed button [-]
-					when X"0800" => 
-						if (status = INITIAL ) then
-							status <= ERROR;
 							digit5_segmentcode <= 20;
 							digit4_segmentcode <= 20;
 							digit3_segmentcode <= 20;
 							digit2_segmentcode <= 20;
 							digit1_segmentcode <= 20;
 							digit0_segmentcode <= 0;
-						else 
-							status <= INITIAL;
-							operation_status <= 1;
-							alt_operation_status <= 1;
-							entered_operator <= entering_operator;
-							entering_operator <= 1;
-						end if;
-
-					-- Pressed button [0]
-					when X"1000" => 
-						if (status = INITIAL or status = ERROR) then
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 0;
+							operation_result <= 0;
 							memorized_value <= 0;
-						elsif (status = OPERAND_1DIGIT_ENTERED) then
-							status <= OPERAND_2DIGITS_ENTERED;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 0;
-							memorized_value <= digit0_segmentcode * 10;
-						elsif (status = OPERAND_2DIGITS_ENTERED) then
-							status <= OPERAND_3DIGITS_ENTERED;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 0;
-							memorized_value <= digit1_segmentcode * 100 + digit0_segmentcode * 10;
-						elsif (status = OPERAND_3DIGITS_ENTERED) then
-							status <= OPERAND_4DIGITS_ENTERED;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 0;
-							memorized_value <= digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10;
-						elsif (status = OPERAND_4DIGITS_ENTERED) then
-							status <= OPERAND_5DIGITS_ENTERED;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 0;
-							memorized_value <= digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10;
-						elsif (status = OPERAND_5DIGITS_ENTERED) then
-							status <= OPERAND_6DIGITS_ENTERED;
-							digit5_segmentcode <= digit4_segmentcode;
-							digit4_segmentcode <= digit3_segmentcode;
-							digit3_segmentcode <= digit2_segmentcode;
-							digit2_segmentcode <= digit1_segmentcode;
-							digit1_segmentcode <= digit0_segmentcode;
-							digit0_segmentcode <= 0;
-							memorized_value <= digit4_segmentcode * 100000
-								+ digit3_segmentcode * 10000
-								+ digit2_segmentcode * 1000
-								+ digit1_segmentcode * 100
-								+ digit0_segmentcode * 10;
-						elsif (status = OPERAND_6DIGITS_ENTERED) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 16;
-							digit3_segmentcode <= 17;
-							digit2_segmentcode <= 17;
-							digit1_segmentcode <= 0;
-							digit0_segmentcode <= 17;
-						else null;
-						end if;
+							operation_status <= 0;
+							display_status <= 0;
+							entered_operator <= 5;
+							entering_operator <= 5;
+							alt_operation_status <= 1;
 
-					-- Pressed button [C]
-					when X"2000" => 
-						status <= INITIAL;
-						digit5_segmentcode <= 20;
-						digit4_segmentcode <= 20;
-						digit3_segmentcode <= 20;
-						digit2_segmentcode <= 20;
-						digit1_segmentcode <= 20;
-						digit0_segmentcode <= 0;
-						operation_result <= 0;
-						memorized_value <= 0;
-						operation_status<=0;
-						display_status <= 0;
-						entered_operator <= 4;
-						entering_operator <= 4;
-						alt_operation_status <= 2;
-
-					-- Pressed button [=]
-					when X"4000" => 
-						if (status = INITIAL) then
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 0;
-						else
-							status <= INITIAL;
-							operation_status <= 1;
-							entering_operator <= 4;
-							entered_operator <= entering_operator;
-						end if;
-								
-					-- Pressed button [+]
-					when X"8000" => 
-						if (status = INITIAL and alt_operation_status /= 0) then
-							status <= ERROR;
-							digit5_segmentcode <= 20;
-							digit4_segmentcode <= 20;
-							digit3_segmentcode <= 20;
-							digit2_segmentcode <= 20;
-							digit1_segmentcode <= 20;
-							digit0_segmentcode <= 0;
-						elsif(status = INITIAL and alt_operation_status = 0)then
-							status <= INITIAL;
-							operation_status <= 1; 
-							alt_operation_status <= 2;
-							memorized_value <= memorized_value + 1; 
-							entered_operator <= entering_operator;
-							entering_operator <= 4;
-						else 
-							status <= INITIAL;
-							operation_status <= 1;
-							alt_operation_status <= 0;
-							entered_operator <= entering_operator;
-							entering_operator <= 0;
-						end if;
-					when others => null;
-				end case;
+						-- Pressed button [=]
+						when X"4000" => 
+							if (status = INITIAL) then
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 20;
+								digit3_segmentcode <= 20;
+								digit2_segmentcode <= 20;
+								digit1_segmentcode <= 20;
+								digit0_segmentcode <= 0;
+							elsif (status = ERROR) then null;
+							else
+								status <= INITIAL;
+								operation_status <= 1;
+								entered_operator <= entering_operator;
+								entering_operator <= 5;
+							end if;
+									
+						-- Pressed button [+]
+						when X"8000" => 
+							if (status = INITIAL and alt_operation_status /= 0) then
+								status <= ERROR;
+								digit5_segmentcode <= 20;
+								digit4_segmentcode <= 16;
+								digit3_segmentcode <= 17;
+								digit2_segmentcode <= 17;
+								digit1_segmentcode <= 0;
+								digit0_segmentcode <= 17;
+								memorized_value <= 0;
+							elsif (status = INITIAL and alt_operation_status = 0) then
+								status <= INITIAL;
+								operation_status <= 1; 
+								alt_operation_status <= 1;
+								memorized_value <= memorized_value + 1; 
+								entered_operator <= entering_operator;
+								entering_operator <= 5;
+							else 
+								status <= INITIAL;
+								operation_status <= 1;
+								alt_operation_status <= 0;
+								entered_operator <= entering_operator;
+								entering_operator <= 0;
+							end if;
+						when others => null;
+					end case;
 			end if;
 		end if;
 	end process;
