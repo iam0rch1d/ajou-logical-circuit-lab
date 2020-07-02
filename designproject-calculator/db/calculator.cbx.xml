@@ -13,6 +13,7 @@
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div3" CBX_FILE_NAME="lpm_divide_62p.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div7" CBX_FILE_NAME="lpm_divide_62p.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod2" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Mod6" CBX_FILE_NAME="lpm_divide_cqo.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_mult:Mult2|multcore:mult_core|mpar_add:padder|lpm_add_sub:adder[0]" CBX_FILE_NAME="add_sub_rgh.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div0" CBX_FILE_NAME="lpm_divide_92p.tdf"/>
 		<CBX_INST_ENTRY INSTANCE_NAME="|calculator|lpm_divide:Div8" CBX_FILE_NAME="lpm_divide_s0p.tdf"/>
